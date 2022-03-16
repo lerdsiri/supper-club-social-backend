@@ -5,23 +5,176 @@ POST http://localhost:5000/api/v1/users
 Content-Type: application/json
 
 {
-	"email": "donald@americafirst.com",
-	"firstName": "Donald",
-	"lastName": "Trump",
+	"email": "angelaaaa@handlemanchild.com",
+	"firstName": "Angela",
+	"lastName": "Merkel",
 	"profilePic": "",
 	"isAdmin": false,
 	"isBanned": false,
 	"location": {
-		"city": "Palm Beach",
-		"postCode": 33480,
-		"country": "USA"
+		"city": "Berlin",
+		"postCode": 11011,
+		"country": "Germany"
 	}
 }
 
 ### 
 // GET all users
-GET http://localhost:5000/api/v1/users
+GET http://localhost:5000/api/v1/users/
 
+### 
+// GET one user by Id
+GET http://localhost:5000/api/v1/users/6229232bba71ea456c714977
+
+###
+// UPDATE user by Id
+PUT http://localhost:5000/api/v1/users/6229207999e6283b0c2eebfa
+Content-Type: application/json
+
+{
+	"location": {
+		"city": "Beverly Hills",
+		"postCode": 90210,
+		"country": "USA"
+	}
+}
+
+###
+// DELETE user by Id
+DELETE http://localhost:5000/api/v1/users/6229232bba71ea456c714977
+
+###
+// add event to user's cart
+PATCH http://localhost:5000/api/v1/users/6228d3494d83961aac766210/cart/622bec4546e0ad463c7936ed
+Content-Type: application/json
+
+###
+// add event to user's list of eventsAsOrganizer
+PATCH http://localhost:5000/api/v1/users/6228d3494d83961aac766210/eventsAsOrganizer/622bec4546e0ad463c7936ed
+Content-Type: application/json
+
+###
+// add event to user's list of eventsAsOrganizer
+PATCH http://localhost:5000/api/v1/users/6228d3494d83961aac766210/eventsAsAttendee/622bec4546e0ad463c7936ed
+Content-Type: application/json
+
+
+//***************//
+// Event Requests//
+//***************//
+
+###
+POST http://localhost:5000/api/v1/events
+Content-Type: application/json
+
+{
+	"eventName": "One Night in Chennai (in Berlin)",
+	"eventDateTime": "2022-03-21T20:00:00",
+	"eventLoc": {
+		"address": "Platz der Republik 1",
+		"city": "Berlin",
+		"postCode": "11011",
+		"country": "Germany"
+	},
+	"cuisine": "South Indian",
+	"description": "Good company and good conversation over good IPA and authentic south Indian dishes homecooked by a native Tamil",
+	"responseDateline": "2022-03-20T20:00:00",
+	"contributionAmt": 30,
+	"contributionCurrency": "EUR",
+	"numOfAttendeesAllowed": 6
+}
+
+###
+// GET all events
+GET http://localhost:5000/api/v1/events
+
+### 
+// GET events by city
+GET http://localhost:5000/api/v1/events/city/Berlin
+
+### 
+// GET events by postal code
+GET http://localhost:5000/api/v1/events/postCode/11011
+
+###
+// GET event by Id
+GET http://localhost:5000/api/v1/events/622b6009ad8b281bd0b1c4d2
+
+###
+// UPDATE event by Id
+PUT http://localhost:5000/api/v1/events/622bec4546e0ad463c7936ed
+Content-Type: application/json
+
+{
+	//"eventName": "One Night in Chennai (in Berlin)",
+	//"eventDateTime": "2022-03-21T20:00:00",
+	//"status": "ongoing" | "cancelled" | "over"
+	//"eventLoc": {
+	//	"address": "Platz der Republik 1",
+	//	"city": "Berlin",
+	//	"postCode": "11011",
+	//	"country": "Germany"
+	//},
+	//"cuisine": "South Indian",
+	//"description": "Good company and good conversation over good IPA and authentic south Indian dishes homecooked by a native Tamil",
+	//"responseDateline": "2022-03-20T20:00:00",
+	//"contributionAmt": 30,
+	//"contributionCurrency": "EUR"
+	//"numOfAttendeesAllowed": 6
+	//"numOfAttendeesReg": 1
+	"contributionCurrency": "EUR"
+}
+
+###
+// DELETE event by Id
+DELETE http://localhost:5000/api/v1/events/622be8c92c18ed45eca86e91
+
+###
+// add review to event
+PATCH http://localhost:5000/api/v1/events/622bec4546e0ad463c7936ed/reviews
+Content-Type: application/json
+
+{
+	"reviewer": "6228d3494d83961aac766210",
+	"content": "Not Bad!",
+	"score": 4
+}
+
+
+//*********************//
+// Converation Requests//
+//*********************//
+
+###
+POST http://localhost:5000/api/v1/conversations
+Content-Type: application/json
+
+{
+	"creator": "6229207999e6283b0c2eebfa",
+    "participants": [
+		"6229207999e6283b0c2eebfa",
+		"6228d3494d83961aac766210",
+		"6227e3d4cf89df4620c1bd9c"
+	],
+    "subject": "Building Access",
+    "event": "622b6009ad8b281bd0b1c4d2",
+    "messages": [{
+		"author": "6229207999e6283b0c2eebfa",
+		"content": "How do we get into the building when we arrive?"
+	}]
+}
+
+###
+// GET all conversations
+GET http://localhost:5000/api/v1/conversations
+
+###
+// GET conversation by Id
+GET http://localhost:5000/api/v1/conversations/622e25a7fc3eca2da04b7c9d
+
+###
+// GET all conversations in which a given user Id is a participant
+GET http://localhost:5000/api/v1/conversations/participants/6229207999e6283b0c2eebfa
 
 
 //***************//

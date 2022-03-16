@@ -1,8 +1,8 @@
-import mongoose, { Document } from 'mongoose'
+import mongoose, { Document, Types } from 'mongoose'
 
 type LocationDocument = Document & {
   city: string
-  postCode: number
+  postCode: string
   country: string
 }
 
@@ -14,6 +14,9 @@ export type UserDocument = Document & {
   isAdmin: boolean
   isBanned: boolean
   location: LocationDocument
+  eventsAsOrganizer: mongoose.Types.ObjectId[]
+  eventsAsAttendee: mongoose.Types.ObjectId[]
+  cart: mongoose.Types.ObjectId[]
 }
 
 const locationSchema = new mongoose.Schema({
@@ -21,7 +24,7 @@ const locationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  postCode: Number,
+  postCode: String,
   country: String,
 })
 
@@ -37,6 +40,27 @@ const userSchema = new mongoose.Schema({
   isAdmin: Boolean,
   isBanned: Boolean,
   location: locationSchema,
+  eventsAsOrganizer: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Event',
+      unique: true,
+    },
+  ],
+  eventsAsAttendee: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Event',
+      unique: true,
+    },
+  ],
+  cart: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Event',
+      unique: true,
+    },
+  ],
 })
 
 export default mongoose.model<UserDocument>('User', userSchema)
