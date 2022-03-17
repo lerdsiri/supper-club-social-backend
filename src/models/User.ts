@@ -7,6 +7,7 @@ type LocationDocument = Document & {
 }
 
 export type UserDocument = Document & {
+  username: string
   email: string
   firstName: string
   lastName: string
@@ -29,6 +30,11 @@ const locationSchema = new mongoose.Schema({
 })
 
 const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   email: {
     type: String,
     required: true,

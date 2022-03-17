@@ -5,7 +5,8 @@ POST http://localhost:5000/api/v1/users
 Content-Type: application/json
 
 {
-	"email": "angelaaaa@handlemanchild.com",
+	"username": "aaaaa",
+	"email": "aaaa@handlemanchild.com",
 	"firstName": "Angela",
 	"lastName": "Merkel",
 	"profilePic": "",
@@ -24,38 +25,38 @@ GET http://localhost:5000/api/v1/users/
 
 ### 
 // GET one user by Id
-GET http://localhost:5000/api/v1/users/6229232bba71ea456c714977
+GET http://localhost:5000/api/v1/users/62320378f5a24a2024f0eca4
 
 ###
 // UPDATE user by Id
-PUT http://localhost:5000/api/v1/users/6229207999e6283b0c2eebfa
+PUT http://localhost:5000/api/v1/users/62320378f5a24a2024f0eca4
 Content-Type: application/json
 
 {
 	"location": {
-		"city": "Beverly Hills",
-		"postCode": 90210,
-		"country": "USA"
+		"city": "Munich",
+		"postCode": 81541,
+		"country": "Germany"
 	}
 }
 
 ###
 // DELETE user by Id
-DELETE http://localhost:5000/api/v1/users/6229232bba71ea456c714977
+DELETE http://localhost:5000/api/v1/users/62320425f5a24a2024f0ecb9
 
 ###
 // add event to user's cart
-PATCH http://localhost:5000/api/v1/users/6228d3494d83961aac766210/cart/622bec4546e0ad463c7936ed
+PATCH http://localhost:5000/api/v1/users/62320378f5a24a2024f0eca4/cart/6231e8e39f85393d34a594a9
 Content-Type: application/json
 
 ###
 // add event to user's list of eventsAsOrganizer
-PATCH http://localhost:5000/api/v1/users/6228d3494d83961aac766210/eventsAsOrganizer/622bec4546e0ad463c7936ed
+PATCH http://localhost:5000/api/v1/users/62320378f5a24a2024f0eca4/eventsAsOrganizer/6231e8e39f85393d34a594a9
 Content-Type: application/json
 
 ###
 // add event to user's list of eventsAsOrganizer
-PATCH http://localhost:5000/api/v1/users/6228d3494d83961aac766210/eventsAsAttendee/622bec4546e0ad463c7936ed
+PATCH http://localhost:5000/api/v1/users/6232032df5a24a2024f0eca0/eventsAsAttendee/6231e8e39f85393d34a594a9
 Content-Type: application/json
 
 
@@ -68,20 +69,20 @@ POST http://localhost:5000/api/v1/events
 Content-Type: application/json
 
 {
-	"eventName": "One Night in Chennai (in Berlin)",
-	"eventDateTime": "2022-03-21T20:00:00",
+	"eventName": "One Night in Bangkok (in Berlin)",
+	"eventDateTime": "2022-03-31T20:00:00",
 	"eventLoc": {
-		"address": "Platz der Republik 1",
+		"address": "Freiheit Strasse 1",
 		"city": "Berlin",
 		"postCode": "11011",
 		"country": "Germany"
 	},
-	"cuisine": "South Indian",
-	"description": "Good company and good conversation over good IPA and authentic south Indian dishes homecooked by a native Tamil",
-	"responseDateline": "2022-03-20T20:00:00",
-	"contributionAmt": 30,
+	"cuisine": "Thai",
+	"description": "Good company and good conversation over good Singha beer and authentic southern Thai dishes homecooked by a native Thai",
+	"responseDateline": "2022-03-25T20:00:00",
+	"contributionAmt": 25,
 	"contributionCurrency": "EUR",
-	"numOfAttendeesAllowed": 6
+	"numOfAttendeesAllowed": 8
 }
 
 ###
@@ -98,11 +99,11 @@ GET http://localhost:5000/api/v1/events/postCode/11011
 
 ###
 // GET event by Id
-GET http://localhost:5000/api/v1/events/622b6009ad8b281bd0b1c4d2
+GET http://localhost:5000/api/v1/events/6231e8e39f85393d34a594a9
 
 ###
 // UPDATE event by Id
-PUT http://localhost:5000/api/v1/events/622bec4546e0ad463c7936ed
+PUT http://localhost:5000/api/v1/events/6231e8e39f85393d34a594a9
 Content-Type: application/json
 
 {
@@ -131,13 +132,13 @@ DELETE http://localhost:5000/api/v1/events/622be8c92c18ed45eca86e91
 
 ###
 // add review to event
-PATCH http://localhost:5000/api/v1/events/622bec4546e0ad463c7936ed/reviews
+PATCH http://localhost:5000/api/v1/events/6231e8e39f85393d34a594a9/reviews
 Content-Type: application/json
 
 {
-	"reviewer": "6228d3494d83961aac766210",
-	"content": "Not Bad!",
-	"score": 4
+	"reviewer": "6232032df5a24a2024f0eca0",
+	"content": "Donald loves this!",
+	"score": 3
 }
 
 
@@ -150,17 +151,17 @@ POST http://localhost:5000/api/v1/conversations
 Content-Type: application/json
 
 {
-	"creator": "6229207999e6283b0c2eebfa",
+	"creator": "62320378f5a24a2024f0eca4",
     "participants": [
-		"6229207999e6283b0c2eebfa",
-		"6228d3494d83961aac766210",
-		"6227e3d4cf89df4620c1bd9c"
+		"62320378f5a24a2024f0eca4",
+		"623203aff5a24a2024f0eca8",
+		"6232032df5a24a2024f0eca0"
 	],
     "subject": "Building Access",
-    "event": "622b6009ad8b281bd0b1c4d2",
+    "event": "6231e8e39f85393d34a594a9",
     "messages": [{
-		"author": "6229207999e6283b0c2eebfa",
-		"content": "How do we get into the building when we arrive?"
+		"author": "62320378f5a24a2024f0eca4",
+		"content": "Please ring the buzzer when you arrive!"
 	}]
 }
 
@@ -170,54 +171,30 @@ GET http://localhost:5000/api/v1/conversations
 
 ###
 // GET conversation by Id
-GET http://localhost:5000/api/v1/conversations/622e25a7fc3eca2da04b7c9d
+GET http://localhost:5000/api/v1/conversations/623348a68c11723620a84503
 
 ###
 // GET all conversations in which a given user Id is a participant
-GET http://localhost:5000/api/v1/conversations/participants/6229207999e6283b0c2eebfa
-
-
-//***************//
-// Movie Requests//
-//***************//
+GET http://localhost:5000/api/v1/conversations/participants/623203aff5a24a2024f0eca8
 
 ###
-POST http://localhost:5000/api/v1/movies HTTP/1.1
+// GET all conversations related to an event Id
+GET http://localhost:5000/api/v1/conversations/events/6231e8e39f85393d34a594a9
+
+###
+// UPDATE - edit a message in a conversation
+PUT http://localhost:5000/api/v1/conversations/623349bd8c11723620a84517/messages/623349bd8c11723620a84518
 Content-Type: application/json
 
 {
-	"name": "bat man",
-	"publishedYear": 2021,
-	"genres": ["Horror","Comedy", "Adventures"]
-
+	"content": "Can't wait!"
 }
 
 ###
-POST http://localhost:5000/api/v1/users HTTP/1.1
+// PUT - edit conversation by adding a new message
+PUT http://localhost:5000/api/v1/conversations/623348a68c11723620a84503/users/6232032df5a24a2024f0eca0
 Content-Type: application/json
 
 {
-	"name": "elemphant",
-	"hobby": "Fly",
-	"age": 25
-}
-
-###
-PATCH http://localhost:5000/api/v1/users/62207f3118620d0edf0ea817/movie/6221cf2b8fd91dda120ad258
-
-###
-GET http://localhost:5000/api/v1/users/
-
-###
-GET http://localhost:5000/api/v1/movies/6225d54b3fbb800c3d04c9f2
-
-###
-DELETE http://localhost:5000/api/v1/movies/6225d54b3fbb800c3d04c9f2
-
-###
-PUT http://localhost:5000/users/1
-Content-Type: application/json
-
-{
-	"username": "Donk"
+	"content": "yay!"
 }

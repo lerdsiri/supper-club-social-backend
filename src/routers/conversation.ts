@@ -1,10 +1,12 @@
-// Suspended... not in use for the moment
-
 import express from 'express'
+
 import {
+  addMessage,
   createConversation,
+  editMessage,
   getAllConversations,
   getConversationById,
+  getConversationsByEventId,
   getConversationsByUserId,
 } from '../controllers/conversation'
 
@@ -18,5 +20,12 @@ router.get('/', getAllConversations)
 router.get('/:conversationId', getConversationById)
 // retrieve all conversations in which a given user Id is a participant
 router.get('/participants/:userId', getConversationsByUserId)
+// retrieve all conversations related an event Id
+router.get('/events/:eventId', getConversationsByEventId)
+
+// update conversation by editing an existing message
+router.put('/:conversationId/messages/:messageId', editMessage)
+// update conversation by adding a new message
+router.put('/:conversationId/users/:userId', addMessage)
 
 export default router

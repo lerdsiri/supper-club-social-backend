@@ -1,5 +1,6 @@
-import { NotFoundError } from '../helpers/apiError'
+import { ForbiddenError, NotFoundError } from '../helpers/apiError'
 import Event, { EventDocument, Review } from '../models/Event'
+import User from '../models/User'
 
 //POST
 const create = async (event: EventDocument): Promise<EventDocument> => {
@@ -99,8 +100,36 @@ const patchReviewToEvent = async (
   review: Review
 ): Promise<EventDocument> => {
   const event = await Event.findById(eventId)
+  //check that the event exists
   if (!event) {
     throw new NotFoundError(`Event with ID ${eventId} not found`)
+  }
+
+  //check that the event has taken place
+  if (new Date(Date.now()) < event.eventDateTime) {
+    throw new ForbiddenError(
+      'User cannot review an event that has not taken place.'
+    )
+  }
+
+  //check that reviewer attended the event
+  const reviewer = await User.findById(review.reviewer)
+  if (
+    !reviewer?.eventsAsAttendee.some((event) => event.toString() == eventId)
+  ) {
+    throw new ForbiddenError(
+      'User cannot review an event that user did not attend.'
+    )
+  }
+
+  //check whether reviewer has already reviewed the event
+  if (
+    event.reviews.some(
+      (existingReview) =>
+        existingReview.reviewer.toString() == review.reviewer.toString()
+    )
+  ) {
+    throw new ForbiddenError('User has already reviewed this event.')
   }
 
   event.reviews.push(review)

@@ -1,13 +1,19 @@
-// Suspended... not in use for the moment
-
 import mongoose, { Document } from 'mongoose'
 
 import { UserDocument } from './User'
 import { EventDocument } from './Event'
 
+/*
 type MessageDocument = Document & {
-  author: UserDocument
+  author: mongoose.Types.ObjectId
   content: string
+}
+*/
+
+export type Message = {
+  author: mongoose.Types.ObjectId
+  content: string
+  messageDateTime: Date
 }
 
 export type ConversationDocument = Document & {
@@ -15,9 +21,11 @@ export type ConversationDocument = Document & {
   participants: UserDocument[]
   subject: string
   event: EventDocument
-  messages: MessageDocument[]
+  //messages: MessageDocument[]
+  messages: Message[]
 }
 
+/*
 const messageSchema = new mongoose.Schema(
   {
     author: {
@@ -31,7 +39,8 @@ const messageSchema = new mongoose.Schema(
     },
   },
   { timestamps: true }
-)
+);
+*/
 
 const conversationSchema = new mongoose.Schema(
   {
@@ -57,7 +66,24 @@ const conversationSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Event',
     },
-    messages: [messageSchema],
+    //messages: [messageSchema]
+    messages: [
+      {
+        author: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+          required: true,
+        },
+        content: {
+          type: String,
+          reuired: true,
+        },
+        messageDateTime: {
+          type: Date,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true }
 )

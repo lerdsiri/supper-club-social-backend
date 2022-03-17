@@ -182,18 +182,3 @@ export const addReviewToEvent = async (
     }
   }
 }
-
-/*
-if(await EventService.findEventByName(eventName)) {
-            return res.status(400).json("error: The same event name has been taken");
-        };
-
-        const event = new Event({
-            eventName,
-            eventDateTime,
-            numOfAttendeesReg,
-            messages,
-        });
-
-        res.json(await EventService.create(event));
-*/

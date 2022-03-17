@@ -8,7 +8,7 @@ mongoose
   .connect(mongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    // useCreateIndex: true,
+    useCreateIndex: true,
     autoIndex: true,
   })
   .then(() => {

@@ -1,10 +1,9 @@
-// Suspended... not in use for the moment
-
 import { Request, Response, NextFunction } from 'express'
+import mongoose from 'mongoose'
 
 import Conversation from '../models/Conversation'
 import ConversationService from '../services/conversation'
-import { BadRequestError } from '../helpers/apiError'
+import { BadRequestError, NotFoundError } from '../helpers/apiError'
 
 //POST
 export const createConversation = async (
@@ -14,6 +13,7 @@ export const createConversation = async (
 ) => {
   try {
     const { creator, participants, subject, event, messages } = req.body
+    messages[0].messageDateTime = new Date(Date.now())
 
     const conversation = new Conversation({
       creator,
@@ -79,6 +79,75 @@ export const getConversationsByUserId = async (
     res.json(
       await ConversationService.findConversationsByUserId(req.params.userId)
     )
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+// GET all conversations related to an event Id
+export const getConversationsByEventId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.json(
+      await ConversationService.findConversationsByEventId(req.params.eventId)
+    )
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+// UPDATE conversation by editing an existing message
+export const editMessage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const convoId = req.params.conversationId
+    const messageId = req.params.messageId
+    const editedContent = req.body.content
+    res.json(
+      await ConversationService.updateMessage(convoId, messageId, editedContent)
+    )
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+// UPDATE conversation by adding a new message
+export const addMessage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const convoId = req.params.conversationId
+    const author = req.params.userId
+    const content = req.body.content
+    const messageDateTime = new Date(Date.now())
+
+    const message = {
+      author: mongoose.Types.ObjectId(author),
+      content: content,
+      messageDateTime: messageDateTime,
+    }
+
+    res.json(await ConversationService.patchMessage(convoId, message))
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))

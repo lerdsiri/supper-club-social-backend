@@ -12,6 +12,7 @@ export const createUser = async (
 ) => {
   try {
     const {
+      username,
       email,
       firstName,
       lastName,
@@ -26,6 +27,7 @@ export const createUser = async (
     }
 
     const user = new User({
+      username,
       email,
       firstName,
       lastName,
