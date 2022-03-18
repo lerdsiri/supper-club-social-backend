@@ -41,7 +41,7 @@ const findUserByEmail = async (email: string): Promise<UserDocument | null> => {
   return await User.findOne({ email })
 }
 
-//UPDATE user by ID
+//PUT - update user by ID
 const updateUserById = async (
   userId: string,
   update: Partial<UserDocument>
@@ -56,6 +56,62 @@ const updateUserById = async (
   }
 
   return foundUser
+}
+
+//PUT - update user's list of unread conversations by removing read conversation
+const updateUnreadConversations = async (
+  userId: string,
+  conversationId: string
+): Promise<UserDocument | null> => {
+  const updateResult = await User.updateOne(
+    { _id: userId },
+    { $pull: { unreadConversations: conversationId } },
+    { new: true }
+  )
+
+  return await User.findById(userId)
+}
+
+//PUT - update user's cart by removing event from cart
+const deleteEventFromCart = async (
+  userId: string,
+  eventId: string
+): Promise<UserDocument | null> => {
+  const updateResult = await User.updateOne(
+    { _id: userId },
+    { $pull: { cart: eventId } },
+    { new: true }
+  )
+
+  return await User.findById(userId)
+}
+
+//PUT - update user's list of eventsAsOrganizer by removing event
+const deleteEventFromEventsAsOrganizer = async (
+  userId: string,
+  eventId: string
+): Promise<UserDocument | null> => {
+  const updateResult = await User.updateOne(
+    { _id: userId },
+    { $pull: { eventsAsOrganizer: eventId } },
+    { new: true }
+  )
+
+  return await User.findById(userId)
+}
+
+//PUT - update user's list of eventsAsAttendee by removing event
+const deleteEventFromEventsAsAttendee = async (
+  userId: string,
+  eventId: string
+): Promise<UserDocument | null> => {
+  const updateResult = await User.updateOne(
+    { _id: userId },
+    { $pull: { eventsAsAttendee: eventId } },
+    { new: true }
+  )
+
+  return await User.findById(userId)
 }
 
 //DELETE user by ID
@@ -132,6 +188,10 @@ export default {
   findUserById,
   findUserByEmail,
   updateUserById,
+  updateUnreadConversations,
+  deleteEventFromCart,
+  deleteEventFromEventsAsOrganizer,
+  deleteEventFromEventsAsAttendee,
   deleteUserById,
   patchEventToCart,
   patchEventToEventsAsOrganizer,

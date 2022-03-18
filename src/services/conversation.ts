@@ -3,13 +3,30 @@ import Conversation, {
   ConversationDocument,
   Message,
 } from '../models/Conversation'
+import User from '../models/User'
 
 //POST
 const create = async (
   conversation: ConversationDocument
 ): Promise<ConversationDocument> => {
-  return await conversation.save()
+  const newConvo = await conversation.save()
+
+  // add conversation to receiver's list of unread conversations
+  newConvo.participants.map(async (participant) => {
+    if (participant.toString() != newConvo.creator.toString()) {
+      const receiver = await User.findById(participant)
+      receiver?.unreadConversations.push(newConvo._id)
+      await receiver?.save()
+    }
+  })
+
+  return newConvo
 }
+
+/*
+event.reviews.push(review)
+return await event.save()
+*/
 
 //GET all conversations
 const findAllConversations = async () => {
@@ -121,10 +138,11 @@ const findConversationsByEventId = async (
 // UPDATE conversation by editing an existing message
 const updateMessage = async (
   conversationId: string,
+  userId: string,
   messageId: string,
   update: string
 ): Promise<ConversationDocument | null> => {
-  const editedConversation = await Conversation.updateOne(
+  const updateResult = await Conversation.updateOne(
     {
       _id: conversationId,
       'messages._id': messageId,
@@ -140,7 +158,26 @@ const updateMessage = async (
     }
   )
 
-  return await Conversation.findById(conversationId)
+  const updatedConvo = await Conversation.findById(conversationId)
+
+  // add conversation to receivers' list of unread conversations
+  updatedConvo?.participants.map(async (participant) => {
+    if (participant.toString() != userId) {
+      const receiver = await User.findById(participant)
+
+      if (
+        !receiver?.unreadConversations.some(
+          (unreadConvo) =>
+            unreadConvo.toString() === updatedConvo._id.toString()
+        )
+      ) {
+        receiver?.unreadConversations.push(updatedConvo._id)
+        await receiver?.save()
+      }
+    }
+  })
+
+  return updatedConvo
 }
 
 // UPDATE conversation by adding a new message
@@ -155,9 +192,40 @@ const patchMessage = async (
       `Message cannot be added. Conversation with id ${conversationId} does not exist.`
     )
   }
-
   convo.messages.push(message)
-  return await convo.save()
+  const updatedConvo = await convo.save()
+
+  // add conversation to receivers' list of unread conversations
+  updatedConvo.participants.map(async (participant) => {
+    if (participant.toString() !== message.author.toString()) {
+      const receiver = await User.findById(participant)
+
+      if (
+        !receiver?.unreadConversations.some(
+          (unreadConvo) =>
+            unreadConvo.toString() === updatedConvo._id.toString()
+        )
+      ) {
+        receiver?.unreadConversations.push(updatedConvo._id)
+        await receiver?.save()
+      }
+    }
+  })
+
+  return updatedConvo
+}
+
+// DELETE conversation by Id
+const deleteConversationById = async (
+  conversationId: string
+): Promise<ConversationDocument | null> => {
+  const convoToDelete = Conversation.findByIdAndDelete(conversationId)
+
+  if (!convoToDelete) {
+    throw new NotFoundError(`Conversation with id ${conversationId} not found`)
+  }
+
+  return convoToDelete
 }
 
 export default {
@@ -168,4 +236,5 @@ export default {
   findConversationsByEventId,
   updateMessage,
   patchMessage,
+  deleteConversationById,
 }

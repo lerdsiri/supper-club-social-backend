@@ -8,6 +8,7 @@ import {
   getConversationById,
   getConversationsByEventId,
   getConversationsByUserId,
+  removeConversationById,
 } from '../controllers/conversation'
 
 const router = express.Router()
@@ -24,8 +25,11 @@ router.get('/participants/:userId', getConversationsByUserId)
 router.get('/events/:eventId', getConversationsByEventId)
 
 // update conversation by editing an existing message
-router.put('/:conversationId/messages/:messageId', editMessage)
+router.put('/:conversationId/users/:userId/messages/:messageId', editMessage)
 // update conversation by adding a new message
 router.put('/:conversationId/users/:userId', addMessage)
+
+// delete conversation by id
+router.delete('/:conversationId', removeConversationById)
 
 export default router

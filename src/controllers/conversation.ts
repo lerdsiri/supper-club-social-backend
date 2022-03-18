@@ -115,10 +115,16 @@ export const editMessage = async (
 ) => {
   try {
     const convoId = req.params.conversationId
+    const userId = req.params.userId
     const messageId = req.params.messageId
     const editedContent = req.body.content
     res.json(
-      await ConversationService.updateMessage(convoId, messageId, editedContent)
+      await ConversationService.updateMessage(
+        convoId,
+        userId,
+        messageId,
+        editedContent
+      )
     )
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
@@ -148,6 +154,27 @@ export const addMessage = async (
     }
 
     res.json(await ConversationService.patchMessage(convoId, message))
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+// DELETE conversation by Id
+export const removeConversationById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.json(
+      await ConversationService.deleteConversationById(
+        req.params.conversationId
+      )
+    )
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))

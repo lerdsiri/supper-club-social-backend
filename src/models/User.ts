@@ -18,6 +18,7 @@ export type UserDocument = Document & {
   eventsAsOrganizer: mongoose.Types.ObjectId[]
   eventsAsAttendee: mongoose.Types.ObjectId[]
   cart: mongoose.Types.ObjectId[]
+  unreadConversations: mongoose.Types.ObjectId[]
 }
 
 const locationSchema = new mongoose.Schema({
@@ -64,6 +65,13 @@ const userSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Event',
+      unique: true,
+    },
+  ],
+  unreadConversations: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Conversation',
       unique: true,
     },
   ],

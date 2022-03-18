@@ -81,7 +81,7 @@ export const getOneUser = async (
   }
 }
 
-// UPDATE user by Id
+// PUT - update user by Id
 export const updateUser = async (
   req: Request,
   res: Response,
@@ -89,6 +89,90 @@ export const updateUser = async (
 ) => {
   try {
     res.json(await UserService.updateUserById(req.params.userId, req.body))
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+// PUT - update user's list of unread convos by removing read convo
+export const reviseUnreadConversations = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.params.userId
+  const conversationId = req.params.conversationId
+
+  try {
+    res.json(
+      await UserService.updateUnreadConversations(userId, conversationId)
+    )
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+// PUT - update user's cart by removing event from cart
+export const removeEventFromCart = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.params.userId
+  const eventId = req.params.eventId
+
+  try {
+    res.json(await UserService.deleteEventFromCart(userId, eventId))
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+// PUT - update user's list of eventsAsOrganizer by removing event
+export const removeEventFromEventsAsOrganizer = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.params.userId
+  const eventId = req.params.eventId
+
+  try {
+    res.json(
+      await UserService.deleteEventFromEventsAsOrganizer(userId, eventId)
+    )
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+// PUT - update user's list of eventsAsAttendee by removing event
+export const removeEventFromEventsAsAttendee = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const userId = req.params.userId
+  const eventId = req.params.eventId
+
+  try {
+    res.json(await UserService.deleteEventFromEventsAsAttendee(userId, eventId))
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
