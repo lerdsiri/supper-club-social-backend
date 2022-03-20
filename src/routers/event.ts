@@ -1,4 +1,6 @@
 import express from 'express'
+import passport from 'passport'
+
 import {
   createEvent,
   getAllEvents,
@@ -13,7 +15,7 @@ import {
 const router = express.Router()
 
 //create an event
-router.post('/', createEvent)
+router.post('/', passport.authenticate('jwt', { session: false }), createEvent)
 
 //retrieve
 router.get('/', getAllEvents)
@@ -22,12 +24,24 @@ router.get('/city/:city', getEventsByCity)
 router.get('/postCode/:postCode', getEventsByPostCode)
 
 //update
-router.put('/:eventId', editEventById)
+router.put(
+  '/:eventId',
+  passport.authenticate('jwt', { session: false }),
+  editEventById
+)
 
 //delete
-router.delete('/:eventId', removeEventById)
+router.delete(
+  '/:eventId',
+  passport.authenticate('jwt', { session: false }),
+  removeEventById
+)
 
 //add review to event
-router.patch('/:eventId/reviews', addReviewToEvent)
+router.patch(
+  '/:eventId/reviews',
+  passport.authenticate('jwt', { session: false }),
+  addReviewToEvent
+)
 
 export default router

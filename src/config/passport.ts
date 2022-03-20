@@ -1,6 +1,16 @@
-import passport from 'passport'
-import passportLocal from 'passport-local'
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
 
-import { Request, Response, NextFunction } from 'express'
+import { JWT_SECRET } from '../util/secrets'
+import UserService from '../services/user'
 
-const LocalStrategy = passportLocal.Strategy
+export const jwtStrategy = new JwtStrategy(
+  {
+    secretOrKey: JWT_SECRET,
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  },
+  async (payload: { _id: string; email: string }, done: any) => {
+    const userEmail = payload.email
+    const foundUser = await UserService.findUserByEmail(userEmail)
+    done(null, foundUser)
+  }
+)

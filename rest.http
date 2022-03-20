@@ -7,6 +7,7 @@ Content-Type: application/json
 {
 	"username": "aaaaa",
 	"email": "aaaa@handlemanchild.com",
+	"password": "angie1234",
 	"firstName": "Angela",
 	"lastName": "Merkel",
 	"profilePic": "",
@@ -41,22 +42,42 @@ Content-Type: application/json
 }
 
 ###
+// UPDATE user's list of unread convos by removing read convo
+PUT http://localhost:5000/api/v1/users/6232032df5a24a2024f0eca0/unreadConversations/623456b97ace55268c5df081
+Content-Type: application/json
+
+###
+// UPDATE user's cart by removing event
+PUT http://localhost:5000/api/v1/users/62320378f5a24a2024f0eca4/cart/events/6231e8e39f85393d34a594a9
+Content-Type: application/json
+
+###
+// UPDATE user's list of eventsAsOrganizer by removing event
+PUT http://localhost:5000/api/v1/users/62320378f5a24a2024f0eca4/eventsAsOrganizer/events/6231e8e39f85393d34a594a9
+Content-Type: application/json
+
+###
+// UPDATE user's list of eventsAsAttendee by removing event
+PUT http://localhost:5000/api/v1/users/62320378f5a24a2024f0eca4/eventsAsAttendee/events/6231e8e39f85393d34a594a9
+Content-Type: application/json
+
+###
 // DELETE user by Id
 DELETE http://localhost:5000/api/v1/users/62320425f5a24a2024f0ecb9
 
 ###
 // add event to user's cart
-PATCH http://localhost:5000/api/v1/users/62320378f5a24a2024f0eca4/cart/6231e8e39f85393d34a594a9
+PATCH http://localhost:5000/api/v1/users/623203aff5a24a2024f0eca8/cart/events/6231e8e39f85393d34a594a9
 Content-Type: application/json
 
 ###
 // add event to user's list of eventsAsOrganizer
-PATCH http://localhost:5000/api/v1/users/62320378f5a24a2024f0eca4/eventsAsOrganizer/6231e8e39f85393d34a594a9
+PATCH http://localhost:5000/api/v1/users/62320378f5a24a2024f0eca4/eventsAsOrganizer/events/6231e8e39f85393d34a594a9
 Content-Type: application/json
 
 ###
 // add event to user's list of eventsAsOrganizer
-PATCH http://localhost:5000/api/v1/users/6232032df5a24a2024f0eca0/eventsAsAttendee/6231e8e39f85393d34a594a9
+PATCH http://localhost:5000/api/v1/users/6232032df5a24a2024f0eca0/eventsAsAttendee/events/6231e8e39f85393d34a594a9
 Content-Type: application/json
 
 
@@ -69,20 +90,20 @@ POST http://localhost:5000/api/v1/events
 Content-Type: application/json
 
 {
-	"eventName": "One Night in Bangkok (in Berlin)",
-	"eventDateTime": "2022-03-31T20:00:00",
+	"eventName": "One Night in Taipei (in Berlin)",
+	"eventDateTime": "2022-03-20T20:00:00",
 	"eventLoc": {
-		"address": "Freiheit Strasse 1",
+		"address": "Yummy Strasse 1",
 		"city": "Berlin",
 		"postCode": "11011",
 		"country": "Germany"
 	},
-	"cuisine": "Thai",
-	"description": "Good company and good conversation over good Singha beer and authentic southern Thai dishes homecooked by a native Thai",
-	"responseDateline": "2022-03-25T20:00:00",
-	"contributionAmt": 25,
+	"cuisine": "Taiwanese",
+	"description": "Good company and good conversation over good Taiwan beer and authentic Taiwanese dishes homecooked by a native",
+	"responseDateline": "2022-03-19T20:00:00",
+	"contributionAmt": 30,
 	"contributionCurrency": "EUR",
-	"numOfAttendeesAllowed": 8
+	"numOfAttendeesAllowed": 5
 }
 
 ###
@@ -103,7 +124,7 @@ GET http://localhost:5000/api/v1/events/6231e8e39f85393d34a594a9
 
 ###
 // UPDATE event by Id
-PUT http://localhost:5000/api/v1/events/6231e8e39f85393d34a594a9
+PUT http://localhost:5000/api/v1/events/6234a58f4ed7f43c3cf2a8a7
 Content-Type: application/json
 
 {
@@ -116,14 +137,14 @@ Content-Type: application/json
 	//	"postCode": "11011",
 	//	"country": "Germany"
 	//},
+	//"mainPic": "pic URL here"
 	//"cuisine": "South Indian",
 	//"description": "Good company and good conversation over good IPA and authentic south Indian dishes homecooked by a native Tamil",
 	//"responseDateline": "2022-03-20T20:00:00",
 	//"contributionAmt": 30,
 	//"contributionCurrency": "EUR"
 	//"numOfAttendeesAllowed": 6
-	//"numOfAttendeesReg": 1
-	"contributionCurrency": "EUR"
+	"mainPic": "pic URL here"
 }
 
 ###
@@ -151,17 +172,17 @@ POST http://localhost:5000/api/v1/conversations
 Content-Type: application/json
 
 {
-	"creator": "62320378f5a24a2024f0eca4",
+	"creator": "6232032df5a24a2024f0eca0",
     "participants": [
 		"62320378f5a24a2024f0eca4",
 		"623203aff5a24a2024f0eca8",
 		"6232032df5a24a2024f0eca0"
 	],
-    "subject": "Building Access",
+    "subject": "Beverages",
     "event": "6231e8e39f85393d34a594a9",
     "messages": [{
-		"author": "62320378f5a24a2024f0eca4",
-		"content": "Please ring the buzzer when you arrive!"
+		"author": "6232032df5a24a2024f0eca0",
+		"content": "Too bad you're not serving any American food."
 	}]
 }
 
@@ -183,18 +204,22 @@ GET http://localhost:5000/api/v1/conversations/events/6231e8e39f85393d34a594a9
 
 ###
 // UPDATE - edit a message in a conversation
-PUT http://localhost:5000/api/v1/conversations/623349bd8c11723620a84517/messages/623349bd8c11723620a84518
+PUT http://localhost:5000/api/v1/conversations/623464154d36142f50303843/users/6232032df5a24a2024f0eca0/messages/623464154d36142f50303844
 Content-Type: application/json
 
 {
-	"content": "Can't wait!"
+	"content": "I miss American food."
 }
 
 ###
 // PUT - edit conversation by adding a new message
-PUT http://localhost:5000/api/v1/conversations/623348a68c11723620a84503/users/6232032df5a24a2024f0eca0
+PUT http://localhost:5000/api/v1/conversations/623464154d36142f50303843/users/6232032df5a24a2024f0eca0
 Content-Type: application/json
 
 {
 	"content": "yay!"
 }
+
+### 
+// DELETE conversation by id
+DELETE http://localhost:5000/api/v1/conversations/62345dc1c437f92508c85aa5

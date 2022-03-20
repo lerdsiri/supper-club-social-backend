@@ -1,5 +1,6 @@
 import express from 'express'
-import { remove } from 'lodash'
+import passport from 'passport'
+
 import {
   createUser,
   getAllUsers,
@@ -13,51 +14,78 @@ import {
   removeEventFromCart,
   removeEventFromEventsAsOrganizer,
   removeEventFromEventsAsAttendee,
+  loginUser,
 } from '../controllers/user'
 
 const router = express.Router()
 
 //create user
 router.post('/', createUser)
+router.post('/login', loginUser)
 
 //retrieve all users
-router.get('/', getAllUsers)
+router.get('/', passport.authenticate('jwt', { session: false }), getAllUsers)
 //retrieve one user by Id
-router.get('/:userId', getOneUser)
+router.get(
+  '/:userId',
+  passport.authenticate('jwt', { session: false }),
+  getOneUser
+)
 
 //update one user by Id
-router.put('/:userId', updateUser)
+router.put(
+  '/:userId',
+  passport.authenticate('jwt', { session: false }),
+  updateUser
+)
 //update list of unread convos by removing read convo
 router.put(
   '/:userId/unreadConversations/:conversationId',
+  passport.authenticate('jwt', { session: false }),
   reviseUnreadConversations
 )
 //update user's cart by removing event
-router.put('/:userId/cart/events/:eventId', removeEventFromCart)
+router.put(
+  '/:userId/cart/events/:eventId',
+  passport.authenticate('jwt', { session: false }),
+  removeEventFromCart
+)
 //update user's list of eventsAsOrganizer by removing event
 router.put(
   '/:userId/eventsAsOrganizer/events/:eventId',
+  passport.authenticate('jwt', { session: false }),
   removeEventFromEventsAsOrganizer
 )
 //update user's list of eventsAsAttendee by removing event
 router.put(
   '/:userId/eventsAsAttendee/events/:eventId',
+  passport.authenticate('jwt', { session: false }),
   removeEventFromEventsAsAttendee
 )
 
 //delete user by Id
-router.delete('/:userId', deleteUser)
+router.delete(
+  '/:userId',
+  passport.authenticate('jwt', { session: false }),
+  deleteUser
+)
 
 //add event to user's cart
-router.patch('/:userId/cart/events/:eventId', addEventToCart)
+router.patch(
+  '/:userId/cart/events/:eventId',
+  passport.authenticate('jwt', { session: false }),
+  addEventToCart
+)
 //add event to user's list of eventsAsOrganizer
 router.patch(
   '/:userId/eventsAsOrganizer/events/:eventId',
+  passport.authenticate('jwt', { session: false }),
   addEventToEventsAsOrganizer
 )
 //add event to user's list of eventsAsAttendee
 router.patch(
   '/:userId/eventsAsAttendee/events/:eventId',
+  passport.authenticate('jwt', { session: false }),
   addEventToEventsAsAttendee
 )
 

@@ -1,10 +1,17 @@
 import { Request, Response, NextFunction } from 'express'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 import User from '../models/User'
 import UserService from '../services/user'
-import { BadRequestError } from '../helpers/apiError'
+import {
+  BadRequestError,
+  InternalServerError,
+  NotFoundError,
+} from '../helpers/apiError'
+import { JWT_SECRET } from '../util/secrets'
 
-// POST
+// POST - create user
 export const createUser = async (
   req: Request,
   res: Response,
@@ -14,6 +21,7 @@ export const createUser = async (
     const {
       username,
       email,
+      password,
       firstName,
       lastName,
       profilePic,
@@ -26,9 +34,17 @@ export const createUser = async (
       return res.status(400).json('error: User already exists')
     }
 
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    console.log('password: ', password)
+    console.log('salt: ', salt)
+    console.log('hashed password: ', hashedPassword)
+
     const user = new User({
       username,
       email,
+      password: hashedPassword,
       firstName,
       lastName,
       profilePic,
@@ -44,6 +60,49 @@ export const createUser = async (
     } else {
       next(error)
     }
+  }
+}
+
+// POST - login
+export const loginUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email, password } = req.body
+    const user = await UserService.findUserByEmail(email)
+
+    if (!user) {
+      return next(new NotFoundError('User\'s email not found'))
+    } else {
+      {
+        const isCorrectPassword = await bcrypt.compare(password, user.password)
+
+        if (!isCorrectPassword) {
+          return next(new BadRequestError('Password is incorrect'))
+        }
+
+        const token = jwt.sign(
+          {
+            userId: user._id,
+            email: user.email,
+          },
+          JWT_SECRET,
+          {
+            expiresIn: '1h',
+          }
+        )
+        const userLessPassword = await User.findOne(
+          { email: email },
+          { password: 0 }
+        )
+
+        res.json({ token, userLessPassword })
+      }
+    }
+  } catch (error) {
+    next(new InternalServerError('Internal server error'))
   }
 }
 

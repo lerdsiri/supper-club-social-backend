@@ -31,6 +31,7 @@ export type EventDocument = Document & {
   eventDateTime: Date
   status: 'ongoing' | 'cancelled' | 'over'
   eventLoc: EventLocDocument
+  mainPic: string
   cuisine: string
   description: string
   responseDateline: Date
@@ -83,6 +84,7 @@ const eventSchema = new mongoose.Schema(
       type: eventLocSchema,
       required: true,
     },
+    mainPic: String,
     cuisine: String,
     description: {
       type: String,
