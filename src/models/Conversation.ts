@@ -17,9 +17,9 @@ export type Message = {
 }
 
 export type ConversationDocument = Document & {
-  creator: UserDocument
-  participants: UserDocument[]
-  subject: string
+  // creator: UserDocument
+  // participants: UserDocument[]
+  // subject: string
   event: EventDocument
   //messages: MessageDocument[]
   messages: Message[]
@@ -42,6 +42,35 @@ const messageSchema = new mongoose.Schema(
 );
 */
 
+const conversationSchema = new mongoose.Schema(
+  {
+    event: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Event',
+      required: true,
+    },
+    //messages: [messageSchema]
+    messages: [
+      {
+        author: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+        },
+        content: {
+          type: String,
+        },
+        messageDateTime: {
+          type: Date,
+        },
+      },
+    ],
+  },
+  { timestamps: true }
+)
+
+// Below model may be used when direct messages are permitted.
+// Only message board attached to a particular event is allowed currently.
+/*
 const conversationSchema = new mongoose.Schema(
   {
     creator: {
@@ -87,6 +116,7 @@ const conversationSchema = new mongoose.Schema(
   },
   { timestamps: true }
 )
+*/
 
 export default mongoose.model<ConversationDocument>(
   'Conversation',
