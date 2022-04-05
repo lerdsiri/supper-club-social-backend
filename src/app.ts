@@ -16,13 +16,8 @@ const app = express()
 // Middleware
 // Express configuration
 app.use(apiContentType)
+app.use(express.json({ limit: '50mb'}))
 app.use(cors())
-/*
-app.use(cors({
-    origin: 'https://www...' <-- can specify URL of our server
-}));
-*/
-app.use(express.json({ limit: '50mb' }))
 passport.use(jwtStrategy)
 
 // Use routers

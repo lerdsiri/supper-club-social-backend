@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 
 import Conversation from '../models/Conversation'
 import ConversationService from '../services/conversation'
-import { BadRequestError } from '../helpers/apiError'
+import { BadRequestError, NotFoundError } from '../helpers/apiError'
 
 //POST
 export const createConversation = async (

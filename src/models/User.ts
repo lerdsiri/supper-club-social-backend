@@ -27,14 +27,8 @@ const locationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  postCode: {
-    type: String,
-    default: ""
-  },
-  country: {
-    type: String,
-    default: ""
-  }
+  postCode: String,
+  country: String,
 })
 
 const userSchema = new mongoose.Schema({
@@ -52,53 +46,38 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  firstName: {
-    type: String,
-    default: ""
-  },
-  lastName: {
-    type: String,
-    default: ""
-  },
-  profilePic: {
-    type: String,
-    default: ""
-  },
-  isAdmin: {
-    type: Boolean,
-    default: false
-  },
-  isBanned: {
-    type: Boolean,
-    default: false
-  },
+  firstName: String,
+  lastName: String,
+  profilePic: String,
+  isAdmin: Boolean,
+  isBanned: Boolean,
   location: locationSchema,
   eventsAsOrganizer: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Event',
-      //unique: true,
+      unique: true,
     },
   ],
   eventsAsAttendee: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Event',
-      //unique: true,
+      unique: true,
     },
   ],
   cart: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Event',
-      //unique: true,
+      unique: true,
     },
   ],
   unreadConversations: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Conversation',
-      //unique: true,
+      unique: true,
     },
   ],
 })

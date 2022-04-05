@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import mongoose from 'mongoose'
 
 import Event from '../models/Event'
-import Review from '../models/Event'
+//import Review from '../models/Event'
 import EventService from '../services/event'
 import { BadRequestError } from '../helpers/apiError'
 

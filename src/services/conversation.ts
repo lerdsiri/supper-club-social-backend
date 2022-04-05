@@ -40,10 +40,10 @@ const findAllConversations = async () => {
       path: 'messages',
       populate: {
         path: 'author',
-        select: { username: 1, profilePic: 1}
-      }
+        select: { username: 1, profilePic: 1 },
+      },
     })
-    
+
   /*
   return await Conversation.find()
     .sort({ updatedAt: 1 })
@@ -125,7 +125,6 @@ const findConversationsByUserId = async (
 const findConversationsByEventId = async (
   eventId: string
 ): Promise<ConversationDocument[] | null> => {
-
   const allConvos = await Conversation.find()
 
   const foundConvo = allConvos.filter((convo) => {
@@ -175,11 +174,11 @@ const updateMessage = async (
   const updateResult = await Conversation.updateOne(
     {
       _id: conversationId,
-      'messages._id': messageId
+      'messages._id': messageId,
     },
     {
       $set: {
-        'messages.$.content': update
+        'messages.$.content': update,
       },
     },
     {
@@ -226,12 +225,12 @@ const addNewMessage = async (
   }
 
   convo.messages.unshift(message)
-  let updatedConvo = (await convo.save()).populate({
+  const updatedConvo = (await convo.save()).populate({
     path: 'messages',
     populate: {
       path: 'author',
-      select: { username: 1, profilePic: 1}
-    }
+      select: { username: 1, profilePic: 1 },
+    },
   })
 
   /*

@@ -20,6 +20,10 @@ const findEventsByCity = async (
     eventDateTime: 1,
   })
 
+  if (foundEvents.length === 0) {
+    throw new NotFoundError(`There are no events in ${city} at the moment`)
+  }
+
   return foundEvents
 }
 
@@ -30,6 +34,12 @@ const findEventsByPostCode = async (
   const foundEvents = await Event.find({ 'eventLoc.postCode': postCode }).sort({
     eventDateTime: 1,
   })
+
+  if (foundEvents.length === 0) {
+    throw new NotFoundError(
+      `There are no events within postcal code ${postCode} at the moment`
+    )
+  }
 
   return foundEvents
 }

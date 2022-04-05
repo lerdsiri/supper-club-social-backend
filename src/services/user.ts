@@ -6,16 +6,12 @@ import Event from '../models/Event'
 
 //POST
 const create = async (user: UserDocument): Promise<UserDocument> => {
-  console.log("before saving user")
-  
+  /*
   const savedUser = await user.save()
-  
-  console.log("inside createUser service")
-  console.log("user: ", savedUser)
-
   return savedUser;
+  */
   
-  //return await user.save()
+  return await user.save()
 }
 
 //GET all users

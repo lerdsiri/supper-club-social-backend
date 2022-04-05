@@ -29,14 +29,14 @@ POST http://localhost:5000/api/v1/users/login
 Content-Type: application/json
 
 {
-	"email": "vladimir.putin@sovietglory.com",
-	"password": "loveRussia"
+	"email": "angela@gmail.com",
+	"password": "angelaMer"
 }
 
 ### 
 // GET all users
 GET http://localhost:5000/api/v1/users/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjM1ZWNmNDU0MTAwZjNiNzBjYjNkM2IiLCJlbWFpbCI6InZsYWRpbWlyLnB1dGluQHNvdmlldGdsb3J5LmNvbSIsImlhdCI6MTY0NzczNDgzNiwiZXhwIjoxNjQ3NzM4NDM2fQ.9LmxJWk86sj-4_bUJMs7rtriPno499ZGIMS2YSLKOrc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjNhNGE5OGEzZjQ5ODI4NjBiN2I1ODgiLCJlbWFpbCI6ImFuZ2VsYUBnbWFpbC5jb20iLCJpYXQiOjE2NDgyMjE1NzQsImV4cCI6MTY0ODIyNTE3NH0.AZQ5iSUehnQgQGzycHlSkDXmMvSZ8FDlXpI1dDGK96U
 
 ### 
 // GET one user by Id
@@ -78,7 +78,8 @@ Content-Type: application/json
 
 ###
 // DELETE user by Id
-DELETE http://localhost:5000/api/v1/users/62320425f5a24a2024f0ecb9
+DELETE http://localhost:5000/api/v1/users/623a4a98a3f4982860b7b588
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjNhNGE5OGEzZjQ5ODI4NjBiN2I1ODgiLCJlbWFpbCI6ImFuZ2VsYUBnbWFpbC5jb20iLCJpYXQiOjE2NDgyMjE1NzQsImV4cCI6MTY0ODIyNTE3NH0.AZQ5iSUehnQgQGzycHlSkDXmMvSZ8FDlXpI1dDGK96U
 
 ###
 // add event to user's cart
@@ -102,23 +103,24 @@ Content-Type: application/json
 
 ###
 POST http://localhost:5000/api/v1/events
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjNhNDJkYmRlMTBiMzQxYzhjNGM5MjAiLCJlbWFpbCI6InNpcmlAZ21haWwuY29tIiwiaWF0IjoxNjQ4MDg0MzQ1LCJleHAiOjE2NDgwODc5NDV9.0MolRx4z9zh5BLJtzUTp8zQx5Htz8fcMRtgeL8qu8Tw
 Content-Type: application/json
 
 {
-	"eventName": "One Night in Taipei (in Berlin)",
-	"eventDateTime": "2022-03-20T20:00:00",
+	"eventName": "One Night in Barcelona (in Bangkok)",
+	"eventDateTime": "2022-04-09T20:00:00",
 	"eventLoc": {
-		"address": "Yummy Strasse 1",
-		"city": "Berlin",
-		"postCode": "11011",
-		"country": "Germany"
+		"address": "Yummy Strasse 6",
+		"city": "Bangkok",
+		"postCode": "10330",
+		"country": "Thailand"
 	},
-	"cuisine": "Taiwanese",
-	"description": "Good company and good conversation over good Taiwan beer and authentic Taiwanese dishes homecooked by a native",
-	"responseDateline": "2022-03-19T20:00:00",
-	"contributionAmt": 30,
-	"contributionCurrency": "EUR",
-	"numOfAttendeesAllowed": 5
+	"cuisine": "Spanish",
+	"description": "Good company and good conversation over good Spanish wine and authentic Spanish dishes homecooked by a native",
+	"responseDateline": "2022-04-05T20:00:00",
+	"contributionAmt": 1000,
+	"contributionCurrency": "THB",
+	"numOfAttendeesAllowed": 6
 }
 
 ###
@@ -127,7 +129,7 @@ GET http://localhost:5000/api/v1/events
 
 ### 
 // GET events by city
-GET http://localhost:5000/api/v1/events/city/Berlin
+GET http://localhost:5000/api/v1/events/city/Ber
 
 ### 
 // GET events by postal code

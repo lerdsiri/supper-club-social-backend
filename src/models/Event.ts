@@ -84,10 +84,7 @@ const eventSchema = new mongoose.Schema(
       type: eventLocSchema,
       required: true,
     },
-    mainPic: {
-      type: String,
-      default: ""
-    },
+    mainPic: String,
     cuisine: String,
     description: {
       type: String,

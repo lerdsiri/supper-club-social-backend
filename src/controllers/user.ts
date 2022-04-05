@@ -11,7 +11,7 @@ import {
 } from '../helpers/apiError'
 import { JWT_SECRET } from '../util/secrets'
 
-// const {cloudinary} = require('../utils/cloudinary');
+const { cloudinary } = require('../util/cloudinary');
 
 // POST - create user
 export const createUser = async (
@@ -107,6 +107,7 @@ export const loginUser = async (
 
 //problem importing cloudinary setup from src/util/cloudinary
 //to figure out how to move this back to util folder and import
+/*
 require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
@@ -114,6 +115,7 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+*/
 
 // POST profile pic to existing profile
 export const uploadProfileImg = async (
@@ -140,7 +142,6 @@ export const uploadProfileImg = async (
     }
   }
 }
-
 
 // GET all users
 export const getAllUsers = async (
