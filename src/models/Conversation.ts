@@ -1,8 +1,5 @@
 import mongoose, { Document } from 'mongoose'
 
-import { UserDocument } from './User'
-import { EventDocument } from './Event'
-
 /*
 type MessageDocument = Document & {
   author: mongoose.Types.ObjectId
@@ -20,7 +17,7 @@ export type ConversationDocument = Document & {
   // creator: UserDocument
   // participants: UserDocument[]
   // subject: string
-  event: EventDocument
+  event: mongoose.Types.ObjectId
   //messages: MessageDocument[]
   messages: Message[]
 }

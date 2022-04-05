@@ -39,3 +39,7 @@ dist/**/*
 
 *.swo
 *.swp
+
+# Others
+rest.http
+restdummy.js
