@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 
 import Conversation from '../models/Conversation'
 import ConversationService from '../services/conversation'
-import { BadRequestError, NotFoundError } from '../helpers/apiError'
+import { BadRequestError } from '../helpers/apiError'
 
 //POST
 export const createConversation = async (
@@ -12,15 +12,10 @@ export const createConversation = async (
   next: NextFunction
 ) => {
   try {
-    const { creator, participants, subject, event, messages } = req.body
-    messages[0].messageDateTime = new Date(Date.now())
+    const { event } = req.body
 
     const conversation = new Conversation({
-      creator,
-      participants,
-      subject,
-      event,
-      messages,
+      event
     })
 
     res.json(await ConversationService.create(conversation))
@@ -69,7 +64,12 @@ export const getConversationById = async (
   }
 }
 
+
 // GET all conversations in which a given userId is a participant
+// Temporarily suspended as conversations are currently limited
+// to message board attached to each event. Users organzing or attending
+// such an event are automatically part of the message board.
+/*
 export const getConversationsByUserId = async (
   req: Request,
   res: Response,
@@ -87,6 +87,7 @@ export const getConversationsByUserId = async (
     }
   }
 }
+*/
 
 // GET all conversations related to an event Id
 export const getConversationsByEventId = async (
@@ -115,13 +116,11 @@ export const editMessage = async (
 ) => {
   try {
     const convoId = req.params.conversationId
-    const userId = req.params.userId
     const messageId = req.params.messageId
     const editedContent = req.body.content
     res.json(
       await ConversationService.updateMessage(
         convoId,
-        userId,
         messageId,
         editedContent
       )
@@ -153,7 +152,7 @@ export const addMessage = async (
       messageDateTime: messageDateTime,
     }
 
-    res.json(await ConversationService.patchMessage(convoId, message))
+    res.json(await ConversationService.addNewMessage(convoId, message))
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))

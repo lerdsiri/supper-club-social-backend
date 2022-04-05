@@ -1,9 +1,10 @@
+//import { lte } from 'lodash'
 import { NotFoundError } from '../helpers/apiError'
+
 import Conversation, {
   ConversationDocument,
   Message,
 } from '../models/Conversation'
-import User from '../models/User'
 
 //POST
 const create = async (
@@ -12,6 +13,8 @@ const create = async (
   const newConvo = await conversation.save()
 
   // add conversation to receiver's list of unread conversations
+  // Suspended until direct message feature is permitted.
+  /*
   newConvo.participants.map(async (participant) => {
     if (participant.toString() != newConvo.creator.toString()) {
       const receiver = await User.findById(participant)
@@ -19,6 +22,7 @@ const create = async (
       await receiver?.save()
     }
   })
+  */
 
   return newConvo
 }
@@ -30,6 +34,17 @@ return await event.save()
 
 //GET all conversations
 const findAllConversations = async () => {
+  return await Conversation.find()
+    .sort({ updatedAt: 1 })
+    .populate({
+      path: 'messages',
+      populate: {
+        path: 'author',
+        select: { username: 1, profilePic: 1}
+      }
+    })
+    
+  /*
   return await Conversation.find()
     .sort({ updatedAt: 1 })
     .populate({
@@ -48,6 +63,7 @@ const findAllConversations = async () => {
         eventLoc: 1,
       },
     })
+  */
 }
 
 // GET conversation by Id
@@ -64,6 +80,10 @@ const findConversationById = async (
 }
 
 // GET all conversations in which a given user Id is a participant
+// Temporarily suspended as conversations are currently limited
+// to message board attached to each event. Users organzing or attending
+// such an event are automatically part of the message board.
+/*
 const findConversationsByUserId = async (
   userId: string
 ): Promise<ConversationDocument[] | null> => {
@@ -99,11 +119,21 @@ const findConversationsByUserId = async (
 
   return foundConvos
 }
+*/
 
 // GET all conversations related to an event Id
 const findConversationsByEventId = async (
   eventId: string
 ): Promise<ConversationDocument[] | null> => {
+
+  const allConvos = await Conversation.find()
+
+  const foundConvo = allConvos.filter((convo) => {
+    return convo.event.toString() === eventId
+  })
+
+  return foundConvo
+  /* 
   const allConvos = await Conversation.find()
     .populate({
       path: 'participants',
@@ -133,24 +163,23 @@ const findConversationsByEventId = async (
   }
 
   return foundConvos
+  */
 }
 
 // UPDATE conversation by editing an existing message
 const updateMessage = async (
   conversationId: string,
-  userId: string,
   messageId: string,
   update: string
 ): Promise<ConversationDocument | null> => {
   const updateResult = await Conversation.updateOne(
     {
       _id: conversationId,
-      'messages._id': messageId,
+      'messages._id': messageId
     },
     {
       $set: {
-        'messages.$.content': update,
-        'messages.$.messageDateTime': new Date(Date.now()),
+        'messages.$.content': update
       },
     },
     {
@@ -161,6 +190,8 @@ const updateMessage = async (
   const updatedConvo = await Conversation.findById(conversationId)
 
   // add conversation to receivers' list of unread conversations
+  // Suspended.
+  /*
   updatedConvo?.participants.map(async (participant) => {
     if (participant.toString() != userId) {
       const receiver = await User.findById(participant)
@@ -176,12 +207,13 @@ const updateMessage = async (
       }
     }
   })
+  */
 
   return updatedConvo
 }
 
 // UPDATE conversation by adding a new message
-const patchMessage = async (
+const addNewMessage = async (
   conversationId: string,
   message: Message
 ): Promise<ConversationDocument | null> => {
@@ -192,10 +224,29 @@ const patchMessage = async (
       `Message cannot be added. Conversation with id ${conversationId} does not exist.`
     )
   }
-  convo.messages.push(message)
-  const updatedConvo = await convo.save()
+
+  convo.messages.unshift(message)
+  let updatedConvo = (await convo.save()).populate({
+    path: 'messages',
+    populate: {
+      path: 'author',
+      select: { username: 1, profilePic: 1}
+    }
+  })
+
+  /*
+  updatedConvo = updatedConvo.populate({
+    path: 'messages',
+    populate: {
+      path: 'author',
+      select: { username: 1, profilePic: 1}
+    }
+  })
+  */
 
   // add conversation to receivers' list of unread conversations
+  // suspended
+  /*
   updatedConvo.participants.map(async (participant) => {
     if (participant.toString() !== message.author.toString()) {
       const receiver = await User.findById(participant)
@@ -211,6 +262,7 @@ const patchMessage = async (
       }
     }
   })
+  */
 
   return updatedConvo
 }
@@ -232,9 +284,21 @@ export default {
   create,
   findAllConversations,
   findConversationById,
+  findConversationsByEventId,
+  updateMessage,
+  addNewMessage,
+  deleteConversationById,
+}
+
+/*
+export default {
+  create,
+  findAllConversations,
+  findConversationById,
   findConversationsByUserId,
   findConversationsByEventId,
   updateMessage,
   patchMessage,
   deleteConversationById,
 }
+*/

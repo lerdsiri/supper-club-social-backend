@@ -15,6 +15,7 @@ import {
   removeEventFromEventsAsOrganizer,
   removeEventFromEventsAsAttendee,
   loginUser,
+  uploadProfileImg,
 } from '../controllers/user'
 
 const router = express.Router()
@@ -22,6 +23,7 @@ const router = express.Router()
 //create user
 router.post('/', createUser)
 router.post('/login', loginUser)
+router.post('/uploadprofileimg/:userId', passport.authenticate('jwt', { session: false }), uploadProfileImg)
 
 //retrieve all users
 router.get('/', passport.authenticate('jwt', { session: false }), getAllUsers)

@@ -8,7 +8,7 @@ import {
   getAllConversations,
   getConversationById,
   getConversationsByEventId,
-  getConversationsByUserId,
+  //getConversationsByUserId,
   removeConversationById,
 } from '../controllers/conversation'
 
@@ -21,23 +21,32 @@ router.post(
   createConversation
 )
 
-// retrieve
+// retrieve all conversations
 router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
   getAllConversations
 )
+
+// retrieve conversation by id
 router.get(
   '/:conversationId',
   passport.authenticate('jwt', { session: false }),
   getConversationById
 )
+
 // retrieve all conversations in which a given user Id is a participant
+// temporarily removed as conversations are currently limited to
+// message board attached to each event and users organzing or attending
+// such an event are automatically part of that message board.
+/*
 router.get(
   '/participants/:userId',
   passport.authenticate('jwt', { session: false }),
   getConversationsByUserId
 )
+*/
+
 // retrieve all conversations related an event Id
 router.get(
   '/events/:eventId',
@@ -47,7 +56,7 @@ router.get(
 
 // update conversation by editing an existing message
 router.put(
-  '/:conversationId/users/:userId/messages/:messageId',
+  '/:conversationId/messages/:messageId',
   passport.authenticate('jwt', { session: false }),
   editMessage
 )

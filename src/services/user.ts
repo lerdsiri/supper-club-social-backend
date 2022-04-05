@@ -2,11 +2,20 @@ import mongoose from 'mongoose'
 
 import { NotFoundError } from '../helpers/apiError'
 import User, { UserDocument } from '../models/User'
-import Event, { EventDocument } from '../models/Event'
+import Event from '../models/Event'
 
 //POST
 const create = async (user: UserDocument): Promise<UserDocument> => {
-  return await user.save()
+  console.log("before saving user")
+  
+  const savedUser = await user.save()
+  
+  console.log("inside createUser service")
+  console.log("user: ", savedUser)
+
+  return savedUser;
+  
+  //return await user.save()
 }
 
 //GET all users

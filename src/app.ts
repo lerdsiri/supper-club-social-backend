@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import passport from 'passport'
+import cors from 'cors'
 
 import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
@@ -15,7 +16,13 @@ const app = express()
 // Middleware
 // Express configuration
 app.use(apiContentType)
-app.use(express.json())
+app.use(cors())
+/*
+app.use(cors({
+    origin: 'https://www...' <-- can specify URL of our server
+}));
+*/
+app.use(express.json({ limit: '50mb' }))
 passport.use(jwtStrategy)
 
 // Use routers

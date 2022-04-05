@@ -1,15 +1,50 @@
 import mongoose, { Document } from 'mongoose'
 
-import { UserDocument } from './User'
-import { EventDocument } from './Event'
-
-/*
-type MessageDocument = Document & {
+export type Message = {
   author: mongoose.Types.ObjectId
   content: string
+  messageDateTime: Date
 }
-*/
 
+export type ConversationDocument = Document & {
+  event: mongoose.Types.ObjectId
+  messages: Message[]
+}
+
+const conversationSchema = new mongoose.Schema(
+  {
+    event: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Event',
+      required: true
+    },
+    messages: [
+      {
+        author: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+        },
+        content: {
+          type: String,
+        },
+        messageDateTime: {
+          type: Date,
+        },
+      },
+    ],
+  },
+  { timestamps: true }
+)
+
+export default mongoose.model<ConversationDocument>(
+  'Conversation',
+  conversationSchema
+)
+
+// Model below for future use if and when users are allowed
+// to send direct messages to one another outside of the message
+// board attached to an event
+/*
 export type Message = {
   author: mongoose.Types.ObjectId
   content: string
@@ -24,23 +59,6 @@ export type ConversationDocument = Document & {
   //messages: MessageDocument[]
   messages: Message[]
 }
-
-/*
-const messageSchema = new mongoose.Schema(
-  {
-    author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
-    content: {
-      type: String,
-      reuired: true,
-    },
-  },
-  { timestamps: true }
-);
-*/
 
 const conversationSchema = new mongoose.Schema(
   {
@@ -66,7 +84,6 @@ const conversationSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Event',
     },
-    //messages: [messageSchema]
     messages: [
       {
         author: {
@@ -87,8 +104,4 @@ const conversationSchema = new mongoose.Schema(
   },
   { timestamps: true }
 )
-
-export default mongoose.model<ConversationDocument>(
-  'Conversation',
-  conversationSchema
-)
+*/

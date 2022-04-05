@@ -1,13 +1,16 @@
 //***************//
 // User Requests//
 //***************//
+
+// POST - create user
 POST http://localhost:5000/api/v1/users
 Content-Type: application/json
 
 {
-	"username": "aaaaa",
-	"email": "aaaa@handlemanchild.com",
-	"password": "angie1234",
+	"username": "angelaMer",
+	"email": "angie@gmail.com",
+	"password": "angelaMer",
+	"confirmPassword": "angelaMer",
 	"firstName": "Angela",
 	"lastName": "Merkel",
 	"profilePic": "",
@@ -20,13 +23,25 @@ Content-Type: application/json
 	}
 }
 
+###
+// POST - user login
+POST http://localhost:5000/api/v1/users/login
+Content-Type: application/json
+
+{
+	"email": "vladimir.putin@sovietglory.com",
+	"password": "loveRussia"
+}
+
 ### 
 // GET all users
 GET http://localhost:5000/api/v1/users/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjM1ZWNmNDU0MTAwZjNiNzBjYjNkM2IiLCJlbWFpbCI6InZsYWRpbWlyLnB1dGluQHNvdmlldGdsb3J5LmNvbSIsImlhdCI6MTY0NzczNDgzNiwiZXhwIjoxNjQ3NzM4NDM2fQ.9LmxJWk86sj-4_bUJMs7rtriPno499ZGIMS2YSLKOrc
 
 ### 
 // GET one user by Id
 GET http://localhost:5000/api/v1/users/62320378f5a24a2024f0eca4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjM1ZWNmNDU0MTAwZjNiNzBjYjNkM2IiLCJlbWFpbCI6InZsYWRpbWlyLnB1dGluQHNvdmlldGdsb3J5LmNvbSIsImlhdCI6MTY0NzczNDgzNiwiZXhwIjoxNjQ3NzM4NDM2fQ.9LmxJWk86sj-4_bUJMs7rtriPno499ZGIMS2YSLKOrc
 
 ###
 // UPDATE user by Id

@@ -11,6 +11,8 @@ import {
 } from '../helpers/apiError'
 import { JWT_SECRET } from '../util/secrets'
 
+// const {cloudinary} = require('../utils/cloudinary');
+
 // POST - create user
 export const createUser = async (
   req: Request,
@@ -24,7 +26,6 @@ export const createUser = async (
       password,
       firstName,
       lastName,
-      profilePic,
       isAdmin,
       isBanned,
       location,
@@ -37,17 +38,12 @@ export const createUser = async (
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    console.log('password: ', password)
-    console.log('salt: ', salt)
-    console.log('hashed password: ', hashedPassword)
-
     const user = new User({
       username,
       email,
       password: hashedPassword,
       firstName,
       lastName,
-      profilePic,
       isAdmin,
       isBanned,
       location,
@@ -87,12 +83,15 @@ export const loginUser = async (
           {
             userId: user._id,
             email: user.email,
+            isAdmin: user.isAdmin,
+            isBanned: user.isBanned
           },
           JWT_SECRET,
           {
-            expiresIn: '1h',
+            expiresIn: '6h',
           }
         )
+
         const userLessPassword = await User.findOne(
           { email: email },
           { password: 0 }
@@ -105,6 +104,43 @@ export const loginUser = async (
     next(new InternalServerError('Internal server error'))
   }
 }
+
+//problem importing cloudinary setup from src/util/cloudinary
+//to figure out how to move this back to util folder and import
+require("dotenv").config();
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// POST profile pic to existing profile
+export const uploadProfileImg = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.params.userId
+    
+    const fileStr = req.body.profileImg
+    const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+      upload_preset: "dev_setups"
+    })
+    const update = { profilePic: uploadedResponse.url}
+    
+    res.json(await UserService.updateUserById(userId, update))
+  } catch (error) {
+    console.log("From controller: ", error);
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
 
 // GET all users
 export const getAllUsers = async (

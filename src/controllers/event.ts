@@ -16,16 +16,13 @@ export const createEvent = async (
     const {
       eventName,
       eventDateTime,
-      status,
       eventLoc,
       cuisine,
       description,
       responseDateline,
       contributionAmt,
       contributionCurrency,
-      numOfAttendeesAllowed,
-      numOfAttendeesReg,
-      messages,
+      numOfAttendeesAllowed
     } = req.body
 
     if (await EventService.findEventByName(eventName)) {
@@ -35,16 +32,13 @@ export const createEvent = async (
     const event = new Event({
       eventName,
       eventDateTime,
-      status,
       eventLoc,
       cuisine,
       description,
       responseDateline,
       contributionAmt,
       contributionCurrency,
-      numOfAttendeesAllowed,
-      numOfAttendeesReg,
-      messages,
+      numOfAttendeesAllowed
     })
 
     res.json(await EventService.create(event))
