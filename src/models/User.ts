@@ -49,8 +49,14 @@ const userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   profilePic: String,
-  isAdmin: Boolean,
-  isBanned: Boolean,
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+  isBanned: {
+    type: Boolean,
+    default: false
+  },
   location: locationSchema,
   eventsAsOrganizer: [
     {

@@ -10,8 +10,7 @@ import {
   NotFoundError,
 } from '../helpers/apiError'
 import { JWT_SECRET } from '../util/secrets'
-
-const { cloudinary } = require('../util/cloudinary');
+import { cloudinary } from '../util/cloudinary';
 
 // POST - create user
 export const createUser = async (
@@ -88,7 +87,7 @@ export const loginUser = async (
           },
           JWT_SECRET,
           {
-            expiresIn: '6h',
+            expiresIn: '1h',
           }
         )
 
@@ -105,18 +104,6 @@ export const loginUser = async (
   }
 }
 
-//problem importing cloudinary setup from src/util/cloudinary
-//to figure out how to move this back to util folder and import
-/*
-require("dotenv").config();
-const cloudinary = require("cloudinary").v2;
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-*/
-
 // POST profile pic to existing profile
 export const uploadProfileImg = async (
   req: Request,
@@ -128,7 +115,7 @@ export const uploadProfileImg = async (
     
     const fileStr = req.body.profileImg
     const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
-      upload_preset: "dev_setups"
+      uploadPreset: "dev_setups"
     })
     const update = { profilePic: uploadedResponse.url}
     
