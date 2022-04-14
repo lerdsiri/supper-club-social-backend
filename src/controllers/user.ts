@@ -10,7 +10,7 @@ import {
   NotFoundError,
 } from '../helpers/apiError'
 import { JWT_SECRET } from '../util/secrets'
-import { cloudinary } from '../util/cloudinary';
+import { cloudinary } from '../util/cloudinary'
 
 // POST - create user
 export const createUser = async (
@@ -37,6 +37,9 @@ export const createUser = async (
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
+    location.city = location.city.toLowerCase()
+    location.country = location.country.toLowerCase()
+
     const user = new User({
       username,
       email,
@@ -50,6 +53,7 @@ export const createUser = async (
 
     res.json(await UserService.create(user))
   } catch (error) {
+    console.log(error)
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
     } else {
@@ -83,11 +87,11 @@ export const loginUser = async (
             userId: user._id,
             email: user.email,
             isAdmin: user.isAdmin,
-            isBanned: user.isBanned
+            isBanned: user.isBanned,
           },
           JWT_SECRET,
           {
-            expiresIn: '1h',
+            expiresIn: '12h',
           }
         )
 
@@ -112,16 +116,16 @@ export const uploadProfileImg = async (
 ) => {
   try {
     const userId = req.params.userId
-    
+
     const fileStr = req.body.profileImg
     const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
-      uploadPreset: "dev_setups"
+      uploadPreset: 'dev_setups',
     })
-    const update = { profilePic: uploadedResponse.url}
-    
+    const update = { profilePic: uploadedResponse.url }
+
     res.json(await UserService.updateUserById(userId, update))
   } catch (error) {
-    console.log("From controller: ", error);
+    console.log('From controller: ', error)
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))
     } else {

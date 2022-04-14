@@ -22,12 +22,15 @@ export const createEvent = async (
       responseDateline,
       contributionAmt,
       contributionCurrency,
-      numOfAttendeesAllowed
+      numOfAttendeesAllowed,
     } = req.body
 
     if (await EventService.findEventByName(eventName)) {
       return res.status(400).json('error: The same event name has been taken')
     }
+
+    eventLoc.city = eventLoc.city.toLowerCase()
+    eventLoc.country = eventLoc.country.toLowerCase()
 
     const event = new Event({
       eventName,
@@ -38,7 +41,7 @@ export const createEvent = async (
       responseDateline,
       contributionAmt,
       contributionCurrency,
-      numOfAttendeesAllowed
+      numOfAttendeesAllowed,
     })
 
     res.json(await EventService.create(event))

@@ -51,39 +51,35 @@ const userSchema = new mongoose.Schema({
   profilePic: String,
   isAdmin: {
     type: Boolean,
-    default: false
+    default: false,
   },
   isBanned: {
     type: Boolean,
-    default: false
+    default: false,
   },
   location: locationSchema,
   eventsAsOrganizer: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Event',
-      unique: true,
     },
   ],
   eventsAsAttendee: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Event',
-      unique: true,
     },
   ],
   cart: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Event',
-      unique: true,
     },
   ],
   unreadConversations: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Conversation',
-      unique: true,
     },
   ],
 })
