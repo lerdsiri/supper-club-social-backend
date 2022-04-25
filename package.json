@@ -62,7 +62,7 @@
     "@types/express": "^4.17.2",
     "@types/jest": "^24.9.1",
     "@types/lodash": "^4.14.149",
-    "@types/node": "^12.12.28",
+    "@types/node": "^17.x",
     "@types/node-sass": "^4.11.0",
     "@types/nodemailer": "^6.4.0",
     "@types/passport": "^1.0.7",
