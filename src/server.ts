@@ -3,6 +3,7 @@ import app from './app'
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const mongoUri = process.env.MONGODB_URI!
+const port = process.env.PORT || 5000
 
 mongoose
   .connect(mongoUri, {
@@ -12,9 +13,7 @@ mongoose
     autoIndex: true,
   })
   .then(() => {
-    app.listen(process.env.PORT, () =>
-      console.log(`App running on port ${process.env.PORT}`)
-    )
+    app.listen(port, () => console.log(`App running on port ${port}`))
   })
   .catch((error) => {
     console.log(
