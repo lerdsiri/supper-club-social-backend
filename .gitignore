@@ -43,3 +43,4 @@ dist/**/*
 # Others
 rest.http
 restdummy.js
+yarn.lock
