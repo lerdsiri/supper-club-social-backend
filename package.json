@@ -7,8 +7,8 @@
     "url": "https://github.com/Microsoft/TypeScript-Node-Starter"
   },
   "engines": {
-    "node": "16.x",
-    "npm": "8.x"
+    "node": "17.x",
+    "npm": "8.3.x"
   },
   "author": "Bowden Kelly",
   "license": "MIT",
