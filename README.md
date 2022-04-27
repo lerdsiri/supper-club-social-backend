@@ -33,6 +33,7 @@ All routes are protected except those related to events. Logged-in user receives
 ### user
 
 POST
+<br>
 create user - https://supper-club-social-backend.herokuapp.com/api/v1/users
 <br>
 log in user - https://supper-club-social-backend.herokuapp.com/api/v1/users/login
@@ -40,11 +41,13 @@ log in user - https://supper-club-social-backend.herokuapp.com/api/v1/users/logi
 upload profile image - https://supper-club-social-backend.herokuapp.com/api/v1/uploadprofileimg/:userId
 
 GET
+<br>
 retrieve all users - https://supper-club-social-backend.herokuapp.com/api/v1/users
 <br>
 retrieve one user by Id - https://supper-club-social-backend.herokuapp.com/api/v1/users/:userId
 
 PUT
+<br>
 update one user by Id - https://supper-club-social-backend.herokuapp.com/api/v1/users/:userId
 <br>
 update list of unread convos by removing read convo - https://supper-club-social-backend.herokuapp.com/api/v1/users/:userId/unreadConversations/:conversationId 
@@ -56,9 +59,11 @@ update user's list of eventsAsOrganizer by removing event - https://supper-club-
 update user's list of eventsAsAttendee by removing event - https://supper-club-social-backend.herokuapp.com/api/v1/users/:userId/eventsAsAttendee/events/:eventId
 
 DELETE
+<br>
 delete user by Id - https://supper-club-social-backend.herokuapp.com/api/v1/users/:userId
 
 PATCH
+<br>
 add event to user's cart - https://supper-club-social-backend.herokuapp.com/api/v1/users/:userId/cart/events/:eventId
 <br>
 add event to user's list of eventsAsOrganizer - https://supper-club-social-backend.herokuapp.com/api/v1/users/:userId/eventsAsOrganizer/events/:eventId
@@ -68,9 +73,11 @@ add event to user's list of eventsAsAttendee - https://supper-club-social-backen
 ### event
 
 POST
+<br>
 create an event - https://supper-club-social-backend.herokuapp.com/api/v1/events
 
 GET
+<br>
 retrieve all events - https://supper-club-social-backend.herokuapp.com/api/v1/events
 <br>
 retrieve an event by Id - https://supper-club-social-backend.herokuapp.com/api/v1/events/:eventId
@@ -80,21 +87,26 @@ retrieve events by city - https://supper-club-social-backend.herokuapp.com/api/v
 retrieve events by postal code - https://supper-club-social-backend.herokuapp.com/api/v1/events/postCode/:postCode
 
 PUT
+<br>
 update event by Id - https://supper-club-social-backend.herokuapp.com/api/v1/events/:eventId
 
 DELETE
+<br>
 delete event by Id - https://supper-club-social-backend.herokuapp.com/api/v1/events/:eventId
 
 PATCH
+<br>
 add review to event - https://supper-club-social-backend.herokuapp.com/api/v1/events/:eventId/reviews
 
 ### conversation 
 (messages grouped by event)
 
 POST
+<br>
 create conversation - https://supper-club-social-backend.herokuapp.com/api/v1/conversations
 
 GET
+<br>
 retrieve all conversations - https://supper-club-social-backend.herokuapp.com/api/v1/conversations
 <br>
 retrieve conversation by conversation id - https://supper-club-social-backend.herokuapp.com/api/v1/conversations/:conversationId
@@ -102,9 +114,11 @@ retrieve conversation by conversation id - https://supper-club-social-backend.he
 retrieve all conversations related an event Id - https://supper-club-social-backend.herokuapp.com/api/v1/conversations/events/:eventId
 
 PUT
+<br>
 update conversation by editing an existing message - https://supper-club-social-backend.herokuapp.com/api/v1/conversations/:conversationId/messages/:messageId
 <br>
 update conversation by adding a new message - https://supper-club-social-backend.herokuapp.com/api/v1/conversations/:conversationId/users/:userId
 
 DELETE
+<br>
 delete conversation by id - https://supper-club-social-backend.herokuapp.com/api/v1/conversations/:conversationId
