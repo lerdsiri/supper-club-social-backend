@@ -9,6 +9,7 @@ This is a solo project - github automatically added the instructor as a co-contr
 This git repo contains the backend only.
 
 You may view the frontend code at: https://github.com/lerdsiri/supper-club-social-front-end/tree/siri 
+<br>
 The frontend was launched on Netlify at: https://siri-supper-club-social.netlify.app/ 
 
 The backend was launched on Heroku.
@@ -16,6 +17,7 @@ The backend was launched on Heroku.
 ## Tech Stack
 
 Frontend: React, Redux Toolkit, Typescript, CSS, HTML, JavaScript
+<br>
 Backend: Node.js, Express, MongoDB, Mongoose
 
 ## REST API
