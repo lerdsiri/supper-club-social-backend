@@ -1,27 +1,31 @@
-# Fullstack-Typescript-Project
+# Overview
 
-## Prerequisites
+Supper Club Social is a full stack project made as part of the assignment at the coding bootcamp, Integrify Academy, that combines my two passions - cooking and coding. This project envisions a community in which users may sign up to attend lunch or dinner parties organized by other users in the community at their homes. This helps showcase excellent home cooks and connect the community together. And what better way to get to know your neighbors than with food! 
 
-1. Install mongodb
-2. Install nodejs
+This is a solo project - github automatically added the instructor as a co-contributor who set up the original private repository under Integrify Academy github account for ease of turning in the assignment. The codes were otherwise written independently.
 
-## Setting Up
+## Links
 
-1. Create a `.env` file in the root directory and copy the content from `.env.example`
+This git repo contains the backend only.
 
-2. Make sure mongodb is running
-3. Install dependencies: `yarn`
-4. Run `yarn build-ts`
-4. Use this command for development mode: `yarn watch`
+You may view the frontend code at: https://github.com/lerdsiri/supper-club-social-front-end/tree/siri 
+<br>
+The frontend was launched on Netlify at: https://siri-supper-club-social.netlify.app/ 
 
-## Requirements
+The backend was launched on Heroku.
 
-Below are the steps that you need to finish in order to finish this module
+## Tech Stack
 
-1. Explore the code base, start with `server.ts`
-2. Create all the mongoose schema for your Project
-3. Create CRUD endpoints for all the schema
-4. Separate the routers and controller, controller goes into the controller folders. Controllers only handles request and response
-5. For business logic like saving data to database, filtering, searching or updating, these are services and goes into services folder
-6. Add authentication middleware using passport jwt strategy
+Frontend: React, Redux Toolkit, Typescript, CSS, HTML, JavaScript
+<br>
+Backend: Node.js, Express, MongoDB, Mongoose
 
+## REST API
+
+Hosted on Heroku at: https://supper-club-social-backend.herokuapp.com
+
+There are three models - user, event, and conversation. 
+
+Please note that certain routes are not currently being utilized. They may be used to support additional features in the future.
+
+All routes are protected except those related to events. Logged-in user receives a token used to access protected routes. Routes related to events are not protected so that upcoming events can be shown to anyone for marketing purposes.
