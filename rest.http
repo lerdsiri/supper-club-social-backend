@@ -127,6 +127,10 @@ Content-Type: application/json
 // GET all events
 GET http://localhost:5000/api/v1/events
 
+###
+// GET all events from Heroku server
+GET https://supper-club-social-backend.herokuapp.com/api/v1/events
+
 ### 
 // GET events by city
 GET http://localhost:5000/api/v1/events/city/Ber
