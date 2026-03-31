@@ -13,6 +13,7 @@ You may view the frontend code at: https://github.com/lerdsiri/supper-club-socia
 The frontend was launched on Netlify at: https://siri-supper-club-social.netlify.app/ 
 
 The backend was launched on Heroku.
+<br>
 ** Backend currently not functioning due to discontinuation of Heroku account **
 
 ## Tech Stack
